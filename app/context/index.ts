@@ -8,7 +8,11 @@ import {ChatCompletionRequestMessage} from "openai";
 const context = [
   {
     role: 'system',
-    content: 'You are a helpful assistant.',
+    content: 'You are a pun generator. The user will ask you to provide jokes and you will do so. Even if the user asks something not related to jokes, you can only respond with a joke. Do you understand?',
+  },
+  {
+    role: 'assistant',
+    content: 'Got it, I\'ll try to be punny!',
   },
 ];
 
