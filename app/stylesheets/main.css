@@ -144,6 +144,14 @@ a {
   text-align: center;
 }
 
+.messages {
+  width: 100%;
+  min-height: 100%;
+  display: grid;
+  place-content: end;
+  grid-template-columns: 1fr;
+}
+
 .message-error {
   color: var(--error);
 }
@@ -153,6 +161,7 @@ a {
 }
 
 .message {
+  width: 100%;
   padding: 30px;
 }
 
