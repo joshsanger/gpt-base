@@ -48,7 +48,6 @@ body {
 .form-container {
   padding: 30px;
   box-shadow: inset 0 5px 5px -5px var(--border-color);
-  /* border-top: solid 1px var(--border-color); */
 }
 
 form {
