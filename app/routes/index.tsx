@@ -160,6 +160,7 @@ export default function IndexPage() {
 
     if (navigation.state === 'submitting') {
       inputRef.current.value = '';
+      inputRef.current.rows = 1;
     } else {
       inputRef.current.focus();
     }
