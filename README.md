@@ -17,7 +17,7 @@ OPENAI_API_KEY=superSecretAPIKey
 6. Start playing with the context you wish to add in `/app/context/index.ts`
 
 # Under the hood
-This is build using [Remix](https://remix.run/) (a react based framework), [Typescript](https://www.typescriptlang.org/), and uses plain css (for now). Some key notes:
+This is build using [Remix](https://remix.run/) (a react based framework), [Typescript](https://www.typescriptlang.org/), and uses [Tailwind](https://tailwindcss.com/) for CSS. Some key notes:
 - Pages can be found under `/app/routes`
 - Styling can be found in `/app/stylesheets` and can be added in the `/app/root.tsx` file in the `links()` function
 - Context for the chat interaction should be stored in `/app/context/index.ts` and should follow the data format for [messages](https://platform.openai.com/docs/guides/chat/introduction) (role, content)

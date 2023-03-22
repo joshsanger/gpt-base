@@ -203,19 +203,19 @@ export default function IndexPage() {
   }, [chatHistory]);
 
   return (
-    <main className="container">
-      <div className="chat-container" ref={chatContainerRef}>
+    <main className="container mx-auto bg-light-shade rounded-lg h-full grid grid-rows-layout">
+      <div className="chat-container bg-white rounded-t overflow-auto" ref={chatContainerRef}>
         {chatHistory.length === 0 && (
-          <div className="intro">
+          <div className="intro p-8 grid place-items-center h-full text-center">
             <div className="intro-content">
-              <h1>Open AI base</h1>
-              <p>Ask anything 😊</p>
+              <h1 className="text-4xl font-semibold">Open AI base</h1>
+              <p className="mt-4">Ask anything 😊</p>
             </div>
           </div>
         )}
 
         {chatHistory.length > 0 && (
-          <div className="messages">
+          <div className="messages w-full min-h-full grid place-content-end grid-cols-1">
             {chatHistory.map((chat, index) => (
               <Message
                 error={chat.error}
@@ -230,21 +230,22 @@ export default function IndexPage() {
           </div>
         )}
       </div>
-      <div className="form-container">
+      <div className="form-container p-8 inner-shadow">
         <Form
           aria-disabled={isSubmitting}
           method="post"
           ref={formRef}
           onSubmit={handleFormSubmit}
           replace
+          className="max-w-maxWidth mx-auto"
         >
-          <div className="input-wrap">
-            <label htmlFor="message">Ask a question</label>
+          <div className="input-wrap relative">
+            <label htmlFor="message" className="absolute left[-9999px] w-px h-px overflow-hidden">Ask a question about Editions</label>
             <textarea
               id="message"
               aria-disabled={isSubmitting}
               ref={inputRef}
-              className="auto-growing-input"
+              className="auto-growing-input m-0 appearance-none resize-none text-base p-3 border border-borderColor rounded w-full block leading-6"
               placeholder="Ask a question"
               name="message"
               onChange={handleTextareaChange}
@@ -261,6 +262,7 @@ export default function IndexPage() {
             <button
               aria-label="Submit"
               aria-disabled={isSubmitting}
+              className="absolute right-0 items-center top-1/2 -translate-y-1/2 appearance-none bg-transparent text-white h-full w-11 border-none cursor-pointer shadow-none rounded-tr rounded-br grid place-items-center group hover:bg-dark-shade transition-colors disabled:bg-[#e0e0e0] disabled:text-black disabled:cursor-not-allowed disabled:hover:bg-[#e0e0e0]"
               type="submit"
               disabled={isSubmitting}
             >
@@ -268,18 +270,20 @@ export default function IndexPage() {
             </button>
           </div>
         </Form>
-        <p className="made-with">Made with ❤️ by <a target="_blank" href="http://joshuasanger.ca">Josh Sanger</a></p>
+        <p className="made-with text-xs text-center mt-4">
+          Made with ❤️ by <a target="_blank" href="http://joshuasanger.ca">Josh Sanger</a>
+        </p>
       </div>
-    </main >
+    </main>
   );
 }
 
 export function ErrorBoundary({error}: {error: Error}) {
   return (
-    <main className="error-container">
-      <h1>Something went wrong!</h1>
-      <p className="error">{error.message}</p>
-      <p><Link to="/">Back to chat</Link></p>
+    <main className="container mx-auto bg-light-shade rounded-lg grid grid-rows-layout p-8">
+      <h1 className="text-4xl font-semibold">Something went wrong!</h1>
+      <p className="error mt-4 p-5 rounded text-error border border-error">{error.message}</p>
+      <p className="mt-4"><Link to="/">Back to chat</Link></p>
     </main>
   );
 }

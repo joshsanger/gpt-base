@@ -36,6 +36,18 @@ const RoleIcon = ({role, error}: RoleIconProps) => {
   };
 };
 
+const getRoleClasses = (role: Role) => {
+  switch (role) {
+    case 'system':
+    case 'assistant':
+      return 'bg-white';
+    case 'user':
+      return 'bg-light-shade';
+    default:
+      return '';
+  }
+};
+
 /**
  * Renders a message
  */
@@ -43,17 +55,22 @@ export default function Message({content, error, key, role = 'user'}: MessagePro
   return (
     <div
       className={cn(
-        'message',
-        role,
-        error && 'message-error'
+        'message w-full p-8',
+        getRoleClasses(role),
+        error && 'text-error'
       )}
-      key={key}
+      key={key || ''}
     >
-      <div className="message-inner">
-        <span className="message-role">
+      <div className="message-inner max-w-maxWidth mx-auto flex items-center space-x-4">
+        <span className={cn(
+          'message-role h-10 w-10 grid place-items-center rounded-full shrink-0 grow-0',
+          role ==='user' && 'bg-dark-accent',
+          role !== 'user' && 'bg-dark-shade',
+          error
+        )}>
           {<RoleIcon role={role} error={error} />}
         </span>
-        <div>
+        <div className="response">
           <ReactMarkdown children={content} />
         </div>
       </div>

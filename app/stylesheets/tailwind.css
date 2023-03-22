@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* You can add your own utilites here, for example: */
+@layer utilities {
+  .inner-shadow {
+    box-shadow: inset 0 5px 5px -5px theme('borderColor.border-color');
+  }
+
+  a {
+    color: theme('textColor.dark-shade');
+    text-decoration: underline;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+
+  p + p {
+    margin-top: theme(space.4);
+  }
+
+  .response > * + * {
+    margin-top: 1rem;
+  }
+
+  ol,
+  ul {
+    list-style: disc;
+    margin-left: 1rem;
+  }
+
+  pre {
+    background-color: theme('backgroundColor.light-shade');
+    padding: theme('padding.1') theme('padding.2');
+    border-radius: theme('borderRadius.lg');
+    font-family: monospace;
+    font-size: 1rem;
+  }
+
+  pre code {
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+  }
+
+  code {
+    font-size: 1rem;
+    background-color: theme('backgroundColor.light-shade');
+    padding: theme('padding.1') theme('padding.2');
+    border-radius: theme('borderRadius.lg');
+    font-family: monospace;
+  }
+}
