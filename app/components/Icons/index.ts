@@ -1,5 +1,7 @@
 /**
- * TODO: Combine all icons into 1 component with variants
+ * TODO:
+ * [ ] Combine all icons into 1 component with variants
+ * [ ] Add classes to icons to allow for styling
  */
 
 import Send from './Send';
