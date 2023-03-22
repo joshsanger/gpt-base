@@ -3,7 +3,8 @@ This repo's purpose is to be a starting point for contextual based chat interact
 
 It is meant to be forked, cloned, and copied so folks can play around with the API. Please customize the styling, break things, and most of all, have fun!
 
-<img width="1294" alt="Screen Shot 2023-03-14 at 7 20 32 AM" src="https://user-images.githubusercontent.com/5130040/224985826-b78c3b8c-9d81-4d8b-ad1d-cb540ec1e48e.png">
+<img width="999" alt="Screen Shot 2023-03-19 at 10 54 56 PM" src="https://user-images.githubusercontent.com/5130040/226919242-846e12ce-a31c-4281-89d5-81267e76842f.png">
+
 
 # Getting started
 1. Clone or fork the repo
