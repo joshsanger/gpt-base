@@ -3,6 +3,8 @@ This repo's purpose is to be a starting point for contextual based chat interact
 
 It is meant to be forked, cloned, and copied so folks can play around with the API. Please customize the styling, break things, and most of all, have fun!
 
+[Check out the step by step guide](https://medium.com/@joshua.v.sanger/building-a-context-loaded-chat-assistant-with-openai-and-remix-9f72c6d7962b)
+
 <img width="999" alt="Screen Shot 2023-03-19 at 10 54 56 PM" src="https://user-images.githubusercontent.com/5130040/226919242-846e12ce-a31c-4281-89d5-81267e76842f.png">
 
 
