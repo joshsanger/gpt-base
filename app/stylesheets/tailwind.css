@@ -10,7 +10,7 @@
   }
 
   a {
-    color: theme('textColor.dark-shade');
+    color: theme('colors.black');
     text-decoration: underline;
   }
 

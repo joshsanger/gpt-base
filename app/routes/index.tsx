@@ -1,4 +1,4 @@
-import {useRef, useEffect, useCallback, useState} from 'react';
+import React, {useRef, useEffect, useCallback, useState} from 'react';
 import {Configuration, OpenAIApi, ChatCompletionRequestMessage} from 'openai';
 
 import {type ActionArgs} from '@remix-run/node';
@@ -142,8 +142,9 @@ export default function IndexPage() {
    * @param event The keydown event
    */
   const submitFormOnEnter = useCallback((event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (event.key === 'Enter' && !event.shiftKey) {
-      const value = (event.target as HTMLTextAreaElement).value
+    const value = (event.target as HTMLTextAreaElement).value;
+
+    if (event.key === 'Enter' && !event.shiftKey && value.trim().length > 2) {
       saveUserMessage(value);
       submit(formRef.current, {replace: true});
     }
@@ -189,6 +190,35 @@ export default function IndexPage() {
     }
   }, [data, pushChatHistory])
 
+  const scrollToBottom = (animationDuration: number = 300) => {
+    const body = document.body;
+    const html = document.documentElement;
+    const startTime = performance.now();
+    const startScrollTop = window.scrollY;
+
+
+    const step = (currentTime: number) => {
+      const targetScrollTop = Math.max(
+          body.scrollHeight,
+          body.offsetHeight,
+          html.clientHeight,
+          html.scrollHeight,
+          html.offsetHeight
+      );
+      const progress = (currentTime - startTime) / animationDuration;
+      const easeProgress = Math.min(progress * (2 - progress), 1);
+      const scrollTopPosition = startScrollTop + easeProgress * (targetScrollTop - startScrollTop);
+
+      window.scrollTo({ top: scrollTopPosition });
+
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      }
+    };
+
+    window.requestAnimationFrame(step);
+  };
+
   /**
    * Scrolls to the bottom of the chat container when the chat history changes
    */
@@ -198,31 +228,32 @@ export default function IndexPage() {
     }
 
     if (chatHistory.length) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+      scrollToBottom();
     }
   }, [chatHistory]);
 
   return (
-    <main className="container mx-auto bg-light-shade rounded-lg h-full grid grid-rows-layout">
-      <div className="chat-container bg-white rounded-t overflow-auto" ref={chatContainerRef}>
+    <main className="container mx-auto rounded-lg h-full grid grid-rows-layout p-4 sm:p-8 max-w-full sm:max-w-auto">
+      <div className="chat-container" ref={chatContainerRef}>
         {chatHistory.length === 0 && (
-          <div className="intro p-8 grid place-items-center h-full text-center">
+          <div className="intro grid place-items-center h-full text-center">
             <div className="intro-content">
-              <h1 className="text-4xl font-semibold">Open AI base</h1>
+              <h1 className="text-4xl font-semibold">OpenAI base</h1>
               <p className="mt-4">Ask anything 😊</p>
             </div>
           </div>
         )}
 
         {chatHistory.length > 0 && (
-          <div className="messages w-full min-h-full grid place-content-end grid-cols-1">
+          <div className="messages max-w-maxWidth mx-auto min-h-full grid place-content-end grid-cols-1 gap-4">
             {chatHistory.map((chat, index) => (
-              <Message
-                error={chat.error}
-                content={chat.content}
-                key={`message-${index}`}
-                role={chat.role}
-              />
+              <React.Fragment key={`message-${index}`}>
+                <Message
+                  error={chat.error}
+                  content={chat.content}
+                  role={chat.role}
+                />
+              </React.Fragment>
             ))}
             {isSubmitting && (
               <Message content="Thinking..." role="assistant" />
@@ -230,22 +261,22 @@ export default function IndexPage() {
           </div>
         )}
       </div>
-      <div className="form-container p-8 inner-shadow">
+      <div className="form-container p-4 pb-0 sm:p-8 sm:pb-0 backdrop-blur-md sticky bottom-0">
         <Form
           aria-disabled={isSubmitting}
           method="post"
           ref={formRef}
           onSubmit={handleFormSubmit}
           replace
-          className="max-w-maxWidth mx-auto"
+          className="max-w-[500px] mx-auto"
         >
-          <div className="input-wrap relative">
-            <label htmlFor="message" className="absolute left[-9999px] w-px h-px overflow-hidden">Ask a question about Editions</label>
+          <div className="input-wrap relative flex gap-3 items-center">
+            <label htmlFor="message" className="absolute left[-9999px] w-px h-px overflow-hidden">Ask a question</label>
             <textarea
               id="message"
               aria-disabled={isSubmitting}
               ref={inputRef}
-              className="auto-growing-input m-0 appearance-none resize-none text-base p-3 border border-borderColor rounded w-full block leading-6"
+              className="auto-growing-input m-0 appearance-none text-black placeholder:text-black resize-none text-sm md:text-base py-3 px-4 border border-slate-400 outline-none rounded-lg w-full block leading-6 bg-white"
               placeholder="Ask a question"
               name="message"
               onChange={handleTextareaChange}
@@ -262,7 +293,7 @@ export default function IndexPage() {
             <button
               aria-label="Submit"
               aria-disabled={isSubmitting}
-              className="absolute right-0 items-center top-1/2 -translate-y-1/2 appearance-none bg-transparent text-white h-full w-11 border-none cursor-pointer shadow-none rounded-tr rounded-br grid place-items-center group hover:bg-dark-shade transition-colors disabled:bg-[#e0e0e0] disabled:text-black disabled:cursor-not-allowed disabled:hover:bg-[#e0e0e0]"
+              className="flex-shrink-0 items-center appearance-none text-black h-[50px] w-[50px] border-none cursor-pointer shadow-none rounded-lg grid place-items-center group bg-green-600 hover:bg-gray-800 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed disabled:hover:bg-gray-300 focus:outline-dark-blue"
               type="submit"
               disabled={isSubmitting}
             >
