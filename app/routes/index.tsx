@@ -194,8 +194,6 @@ export default function IndexPage() {
     const body = document.body;
     const html = document.documentElement;
     const startTime = performance.now();
-    const startScrollTop = window.scrollY;
-
 
     const step = (currentTime: number) => {
       const targetScrollTop = Math.max(
@@ -206,10 +204,8 @@ export default function IndexPage() {
           html.offsetHeight
       );
       const progress = (currentTime - startTime) / animationDuration;
-      const easeProgress = Math.min(progress * (2 - progress), 1);
-      const scrollTopPosition = startScrollTop + easeProgress * (targetScrollTop - startScrollTop);
 
-      window.scrollTo({ top: scrollTopPosition });
+      window.scrollTo({ top: targetScrollTop });
 
       if (progress < 1) {
         window.requestAnimationFrame(step);
@@ -233,7 +229,7 @@ export default function IndexPage() {
   }, [chatHistory]);
 
   return (
-    <main className="container mx-auto rounded-lg h-full grid grid-rows-layout p-4 sm:p-8 max-w-full sm:max-w-auto">
+    <main className="container mx-auto rounded-lg h-full grid grid-rows-layout p-4 pb-0 sm:p-8 sm:pb-0 max-w-full sm:max-w-auto">
       <div className="chat-container" ref={chatContainerRef}>
         {chatHistory.length === 0 && (
           <div className="intro grid place-items-center h-full text-center">
@@ -261,7 +257,7 @@ export default function IndexPage() {
           </div>
         )}
       </div>
-      <div className="form-container p-4 pb-0 sm:p-8 sm:pb-0 backdrop-blur-md sticky bottom-0">
+      <div className="form-container p-4 sm:p-8 backdrop-blur-md sticky bottom-0">
         <Form
           aria-disabled={isSubmitting}
           method="post"
