@@ -151,6 +151,36 @@ export default function IndexPage() {
   }, [submit, formRef, saveUserMessage]);
 
   /**
+   * Scrolls to the bottom of the chat container
+   * TODO: Conisder reduced motion
+   * @param animationDuration The duration of the animation in milliseconds
+   */
+  const scrollToBottom = (animationDuration: number = 300) => {
+    const body = document.body;
+    const html = document.documentElement;
+    const startTime = performance.now();
+
+    const step = (currentTime: number) => {
+      const targetScrollTop = Math.max(
+          body.scrollHeight,
+          body.offsetHeight,
+          html.clientHeight,
+          html.scrollHeight,
+          html.offsetHeight
+      );
+      const progress = (currentTime - startTime) / animationDuration;
+
+      window.scrollTo({ top: targetScrollTop });
+
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      }
+    };
+
+    window.requestAnimationFrame(step);
+  };
+
+  /**
    * Focuses the input element when the page is loaded and clears the
    * input when the form is submitted
    */
@@ -189,31 +219,6 @@ export default function IndexPage() {
       })
     }
   }, [data, pushChatHistory])
-
-  const scrollToBottom = (animationDuration: number = 300) => {
-    const body = document.body;
-    const html = document.documentElement;
-    const startTime = performance.now();
-
-    const step = (currentTime: number) => {
-      const targetScrollTop = Math.max(
-          body.scrollHeight,
-          body.offsetHeight,
-          html.clientHeight,
-          html.scrollHeight,
-          html.offsetHeight
-      );
-      const progress = (currentTime - startTime) / animationDuration;
-
-      window.scrollTo({ top: targetScrollTop });
-
-      if (progress < 1) {
-        window.requestAnimationFrame(step);
-      }
-    };
-
-    window.requestAnimationFrame(step);
-  };
 
   /**
    * Scrolls to the bottom of the chat container when the chat history changes
