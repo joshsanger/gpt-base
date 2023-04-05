@@ -1,4 +1,4 @@
-import {ChatCompletionRequestMessage} from "openai";
+import {type ChatCompletionRequestMessage} from 'openai';
 
 /**
  * Add the context loading here
