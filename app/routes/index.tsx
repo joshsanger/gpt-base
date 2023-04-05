@@ -66,7 +66,7 @@ export async function action({request}: ActionArgs): Promise<ReturnedDataProps> 
 
 export default function IndexPage() {
   const minTextareaRows = 1;
-  const maxTextareaRows = 6;
+  const maxTextareaRows = 3;
 
   const data = useActionData<typeof action>();
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -239,7 +239,6 @@ export default function IndexPage() {
             </div>
           </div>
         )}
-
         {chatHistory.length > 0 && (
           <div className="messages max-w-maxWidth mx-auto min-h-full grid place-content-end grid-cols-1 gap-4">
             {chatHistory.map((chat, index) => (
@@ -252,7 +251,7 @@ export default function IndexPage() {
               </React.Fragment>
             ))}
             {isSubmitting && (
-              <Message content="Thinking..." role="assistant" />
+              <Message thinking role="assistant" content="" />
             )}
           </div>
         )}
@@ -266,13 +265,13 @@ export default function IndexPage() {
           replace
           className="max-w-[500px] mx-auto"
         >
-          <div className="input-wrap relative flex gap-3 items-center">
+          <div className="input-wrap relative flex items-center">
             <label htmlFor="message" className="absolute left[-9999px] w-px h-px overflow-hidden">Ask a question</label>
             <textarea
               id="message"
               aria-disabled={isSubmitting}
               ref={inputRef}
-              className="auto-growing-input m-0 appearance-none text-black placeholder:text-black resize-none text-sm md:text-base py-3 px-4 border border-slate-400 outline-none rounded-lg w-full block leading-6 bg-white"
+              className="auto-growing-input m-0 appearance-none text-black placeholder:text-black resize-none text-sm md:text-base py-3 pl-5 pr-14 border border-slate-400 outline-none rounded-4xl w-full block leading-6 bg-white"
               placeholder="Ask a question"
               name="message"
               onChange={handleTextareaChange}
@@ -289,7 +288,7 @@ export default function IndexPage() {
             <button
               aria-label="Submit"
               aria-disabled={isSubmitting}
-              className="flex-shrink-0 items-center appearance-none text-black h-[50px] w-[50px] border-none cursor-pointer shadow-none rounded-lg grid place-items-center group bg-green-600 hover:bg-gray-800 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed disabled:hover:bg-gray-300 focus:outline-dark-blue"
+              className="absolute right-0 flex-shrink-0 items-center appearance-none text-black h-[50px] w-[50px] border-none cursor-pointer shadow-none rounded-4xl grid place-items-center group transition-colors disabled:cursor-not-allowed focus:outline-dark-blue"
               type="submit"
               disabled={isSubmitting}
             >
@@ -307,10 +306,16 @@ export default function IndexPage() {
 
 export function ErrorBoundary({error}: {error: Error}) {
   return (
-    <main className="container mx-auto bg-light-shade rounded-lg grid grid-rows-layout p-8">
-      <h1 className="text-4xl font-semibold">Something went wrong!</h1>
-      <p className="error mt-4 p-5 rounded text-error border border-error">{error.message}</p>
-      <p className="mt-4"><Link to="/">Back to chat</Link></p>
+    <main className="container mx-auto rounded-lg h-full grid grid-rows-layout p-4 pb-0 sm:p-8 sm:pb-0 max-w-full sm:max-w-auto">
+      <div className="chat-container">
+        <div className="intro grid place-items-center h-full text-center">
+          <div className="intro-content inline-block px-4 py-8 border border-error rounded-lg">
+            <h1 className="text-3xl font-semibold">Oops, something went wrong!</h1>
+            <p className="mt-4 text-error ">{error.message}</p>
+            <p className="mt-4"><Link to="/">Back to chat</Link></p>
+          </div>
+        </div>
+      </div>
     </main>
   );
 }

@@ -10,8 +10,24 @@ module.exports = {
       'sans': ['Roboto', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
     },
     extend: {
+      animation: {
+        'thinking-1': 'thinking 1s 0.3s infinite cubic-bezier(0.175, 0.885, 0.320, 1.275)',
+        'thinking-2': 'thinking 1s 0.425s infinite cubic-bezier(0.175, 0.885, 0.320, 1.275)',
+        'thinking-3': 'thinking 1s 0.55s infinite cubic-bezier(0.175, 0.885, 0.320, 1.275)',
+      },
+      keyframes: {
+        'thinking': {
+          '0%': {transform: 'translateY(0)'},
+          '20%': {transform: 'translateY(-60%)'},
+          '80%': {transform: 'translateY(0)'},
+          '100%': {transform: 'translateY(0)'},
+        },
+      },
       spacing: {
         8: '30px',
+      },
+      borderRadius: {
+        '4xl': '25px',
       },
       backgroundColor: {
         'border': '#cccccc',

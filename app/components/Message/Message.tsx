@@ -11,49 +11,13 @@ export interface MessageProps {
   key?: string;
   role?: Role;
   error?: boolean;
+  thinking?: boolean;
 }
-
-export interface RoleIconProps {
-  error?: boolean;
-  role: Role;
-}
-
-/**
- * Returns the role icon based on the role (user, assistant, system)
- * @param role The role of the message
- * @param error Set to true if the message is an error
- *
- * @returns The role icon
- */
-const RoleIcon = ({role, error}: RoleIconProps) => {
-  switch (role) {
-    case 'system':
-    case 'assistant':
-      return <AssistantIcon error={error} />;
-    case 'user':
-      return <UserIcon />;
-    default:
-      return <AssistantIcon />;;
-  };
-};
-
-const getRoleClasses = (role: Role) => {
-  switch (role) {
-    case 'system':
-    case 'assistant':
-      return 'bg-white';
-    case 'user':
-      return 'bg-light-shade';
-    default:
-      return '';
-  }
-};
-
 
 /**
  * Renders a message
  */
-export default function Message({content, error, role = 'user'}: MessageProps) {
+export default function Message({content, error, role = 'user', thinking = false}: MessageProps) {
   const rendered = useRef<null | boolean>(null)
   const messageRef = useRef<HTMLDivElement>(null)
   const messageWrapRef = useRef<HTMLDivElement>(null)
@@ -103,19 +67,27 @@ export default function Message({content, error, role = 'user'}: MessageProps) {
     <div
       className={cn(
         `message message-${role} w-full flex small-mobile:max-sm:text-sm transition-height duration-300`,
-        role === 'user' ? 'justify-end text-right' : 'justify-start',
+        role === 'user' ? 'justify-end' : 'justify-start',
         error && 'text-error'
       )}
       ref={messageWrapRef}
       style={{height: `${messageHeight}px`, overflow: 'hidden'}}
     >
       <div className={cn(
-        'message-inner space-x-4 max-w-[480px] rounded-3xl p-4 transition-[opacity, transform] duration-300 delay-250 relative',
-        role === 'user' ? 'bg-black text-white rounded-tr-none' : ' rounded-tl-none bg-slate-100 text-black',
+        'message-inner space-x-4 max-w-[480px] rounded-3xl p-4 transition-[opacity, transform] duration-300 delay-250 relative text-sm md:text-base',
+        role === 'user' ? 'bg-black text-white rounded-br-none' : ' rounded-tl-none bg-slate-100 text-black',
         rendered.current ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-7',
       )}>
         <div className="response" ref={messageRef}>
-          <ReactMarkdown children={content} />
+          {thinking ? (
+            <div className="flex gap-[5px] min-h-[20px] sm:min-h-[24px] items-center">
+              <span className="thinking-bubble animate-thinking-1" />
+              <span className="thinking-bubble animate-thinking-2" />
+              <span className="thinking-bubble animate-thinking-3" />
+            </div>
+          ) : (
+            <ReactMarkdown children={content} />
+          )}
         </div>
       </div>
     </div>
