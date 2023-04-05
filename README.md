@@ -5,7 +5,7 @@ It is meant to be forked, cloned, and copied so folks can play around with the A
 
 [Check out the step by step guide](https://medium.com/@joshua.v.sanger/building-a-context-loaded-chat-assistant-with-openai-and-remix-9f72c6d7962b)
 
-<img width="902" alt="Screen Shot 2023-04-04 at 10 29 42 PM" src="https://user-images.githubusercontent.com/5130040/229965973-5939e083-fba9-4ba7-b65c-068ac9890efb.png">
+![final_cropped_image](https://user-images.githubusercontent.com/5130040/229966339-e9f83fe2-de1d-4646-a629-47a9064d1146.png)
 
 
 # Getting started
