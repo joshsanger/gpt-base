@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 /* You can add your own utilites here, for example: */
 @layer utilities {
   .inner-shadow {
