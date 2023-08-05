@@ -27,26 +27,6 @@ export async function action({request}: ActionArgs): Promise<ReturnedDataProps> 
   const message = body.get('message') as string;
   const chatHistory = JSON.parse(body.get('chat-history') as string) || [];
 
-  const getStaffInfo = (user: string) => {
-    switch (user) {
-      case 'author':
-        return {
-          name: 'Rebecca',
-          email: 'rebecca@company.com'
-        };
-      case 'owner':
-        return {
-          name: 'Josh',
-          email: 'josh@company.com'
-        };
-      default:
-        return {
-          name: 'No name found',
-          email: 'Not found'
-        };
-    }
-  }
-
   // store your key in .env
   const conf = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
@@ -56,8 +36,7 @@ export async function action({request}: ActionArgs): Promise<ReturnedDataProps> 
     const openai = new OpenAIApi(conf);
 
     const chat = await openai.createChatCompletion({
-      model: 'gpt-3.5-turbo-0613',
-      temperature: 0.2,
+      model: 'gpt-3.5-turbo',
       messages: [
         ...context,
         ...chatHistory,
@@ -66,57 +45,9 @@ export async function action({request}: ActionArgs): Promise<ReturnedDataProps> 
           content: message,
         },
       ],
-      functions: [
-        {
-          name: "getStaffInfo",
-          description: "Get the contact info of a staff member",
-          parameters: {
-            type: "object",
-            properties: {
-              user: {
-                type: "string",
-                description: 'The name of the desired staff member. E.g. "author" or "owner"',
-              },
-            },
-            required: ["user"],
-          },
-        },
-      ],
-      function_call: 'auto',
-    } as any);
+    });
 
-    let answer = chat.data.choices[0].message?.content;
-
-    const wantsToUsefunction = chat.data.choices[0].finish_reason === 'function_call';
-
-    if (wantsToUsefunction) {
-      const functionToUse = chat.data.choices[0].message?.function_call;
-      let jsonReturn = {};
-
-      if (functionToUse.name === 'getStaffInfo') {
-        const args = JSON.parse(functionToUse.arguments) as any;
-        jsonReturn = getStaffInfo(args.user);
-      }
-
-      const chatWithFunction = await openai.createChatCompletion({
-        model: 'gpt-3.5-turbo-0613',
-        messages: [
-          ...context,
-          ...chatHistory,
-          {
-            role: 'user',
-            content: message,
-          },
-          {
-            role: "function",
-            name: functionToUse.name,
-            content: JSON.stringify(jsonReturn),
-          },
-        ],
-      } as any);
-      answer = chatWithFunction.data.choices[0].message?.content;
-    }
-
+    const answer = chat.data.choices[0].message?.content;
 
     return {
       message: body.get('message') as string,
@@ -233,15 +164,15 @@ export default function IndexPage() {
 
     const step = (currentTime: number) => {
       const targetScrollTop = Math.max(
-        body.scrollHeight,
-        body.offsetHeight,
-        html.clientHeight,
-        html.scrollHeight,
-        html.offsetHeight
+          body.scrollHeight,
+          body.offsetHeight,
+          html.clientHeight,
+          html.scrollHeight,
+          html.offsetHeight
       );
       const progress = (currentTime - startTime) / animationDuration;
 
-      window.scrollTo({top: targetScrollTop});
+      window.scrollTo({ top: targetScrollTop });
 
       if (progress < 1) {
         window.requestAnimationFrame(step);
